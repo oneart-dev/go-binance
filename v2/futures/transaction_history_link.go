@@ -19,7 +19,7 @@ func (s *GetTransactionHistoryLinkService) DownloadID(downloadId string) *GetTra
 }
 
 // Do send request
-func (s *GetTransactionHistoryLinkService) Do(ctx context.Context, opts ...RequestOption) (res []*TransactionHistoryLink, err error) {
+func (s *GetTransactionHistoryLinkService) Do(ctx context.Context, opts ...RequestOption) (res *TransactionHistoryLink, err error) {
 	r := &request{
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/income/asyn/id",
@@ -33,7 +33,7 @@ func (s *GetTransactionHistoryLinkService) Do(ctx context.Context, opts ...Reque
 	if err != nil {
 		return nil, err
 	}
-	res = make([]*TransactionHistoryLink, 0)
+	res = &TransactionHistoryLink{}
 	err = json.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err

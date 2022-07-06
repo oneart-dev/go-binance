@@ -26,7 +26,7 @@ func (s *GetTransactionHistoryService) EndTime(endTime int64) *GetTransactionHis
 }
 
 // Do send request
-func (s *GetTransactionHistoryService) Do(ctx context.Context, opts ...RequestOption) (res []*TransactionHistory, err error) {
+func (s *GetTransactionHistoryService) Do(ctx context.Context, opts ...RequestOption) (res *TransactionHistory, err error) {
 	r := &request{
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/income/asyn",
@@ -43,7 +43,7 @@ func (s *GetTransactionHistoryService) Do(ctx context.Context, opts ...RequestOp
 	if err != nil {
 		return nil, err
 	}
-	res = make([]*TransactionHistory, 0)
+	res = &TransactionHistory{}
 	err = json.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err
