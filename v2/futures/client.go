@@ -558,3 +558,11 @@ func (c *Client) NewGetPositionModeService() *GetPositionModeService {
 func (c *Client) NewGetRebateNewUserService() *GetRebateNewUserService {
 	return &GetRebateNewUserService{c: c}
 }
+
+func (c *Client) NewGetTransactionHistoryLinkService() *GetTransactionHistoryLinkService {
+	return &GetTransactionHistoryLinkService{c: c}
+}
+
+func (c *Client) NewGetTransactionHistoryService() *GetTransactionHistoryService {
+	return &GetTransactionHistoryService{c: c}
+}
