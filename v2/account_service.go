@@ -11,7 +11,10 @@ type GetAccountService struct {
 }
 
 // Do send request
-func (s *GetAccountService) Do(ctx context.Context, opts ...RequestOption) (res *Account, err error) {
+func (s *GetAccountService) Do(
+	ctx context.Context,
+	opts ...RequestOption,
+) (res *Account, err error) {
 	r := &request{
 		method:   http.MethodGet,
 		endpoint: "/api/v3/account",
@@ -42,6 +45,7 @@ type Account struct {
 	AccountType      string    `json:"accountType"`
 	Balances         []Balance `json:"balances"`
 	Permissions      []string  `json:"permissions"`
+	UID              int64     `json:"uid"`
 }
 
 // Balance define user balance of your account
@@ -85,7 +89,10 @@ func (s *GetAccountSnapshotService) Limit(limit int) *GetAccountSnapshotService 
 }
 
 // Do send request
-func (s *GetAccountSnapshotService) Do(ctx context.Context, opts ...RequestOption) (res *Snapshot, err error) {
+func (s *GetAccountSnapshotService) Do(
+	ctx context.Context,
+	opts ...RequestOption,
+) (res *Snapshot, err error) {
 	r := &request{
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/accountSnapshot",
@@ -180,7 +187,10 @@ type GetAPIKeyPermission struct {
 }
 
 // Do send request
-func (s *GetAPIKeyPermission) Do(ctx context.Context, opts ...RequestOption) (res *APIKeyPermission, err error) {
+func (s *GetAPIKeyPermission) Do(
+	ctx context.Context,
+	opts ...RequestOption,
+) (res *APIKeyPermission, err error) {
 	r := &request{
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/account/apiRestrictions",
