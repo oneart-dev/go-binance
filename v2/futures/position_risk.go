@@ -19,10 +19,13 @@ func (s *GetPositionRiskService) Symbol(symbol string) *GetPositionRiskService {
 }
 
 // Do send request
-func (s *GetPositionRiskService) Do(ctx context.Context, opts ...RequestOption) (res []*PositionRisk, err error) {
+func (s *GetPositionRiskService) Do(
+	ctx context.Context,
+	opts ...RequestOption,
+) (res []*PositionRisk, err error) {
 	r := &request{
 		method:   http.MethodGet,
-		endpoint: "/fapi/v2/positionRisk",
+		endpoint: "/fapi/v3/positionRisk",
 		secType:  secTypeSigned,
 	}
 	if s.symbol != "" {
