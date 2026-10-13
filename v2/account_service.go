@@ -220,5 +220,8 @@ type APIKeyPermission struct {
 	EnableFutures                  bool   `json:"enableFutures"`
 	EnableMargin                   bool   `json:"enableMargin"`
 	EnableSpotAndMarginTrading     bool   `json:"enableSpotAndMarginTrading"`
+	EnablePortfolioMarginTrading   bool   `json:"enablePortfolioMarginTrading"`
+	EnableFixApiTrade              bool   `json:"enableFixApiTrade"`
+	EnableFixReadOnly              bool   `json:"enableFixReadOnly"`
 	TradingAuthorityExpirationTime uint64 `json:"tradingAuthorityExpirationTime"`
 }

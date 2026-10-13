@@ -214,6 +214,50 @@ func (s *accountServiceTestSuite) TestGetAPIKeyPermission() {
 	s.assertAPIKeyPermissionEqual(e, res)
 }
 
+// TestGetAPIKeyPermissionLiveShape decodes the current live
+// /sapi/v1/account/apiRestrictions body (portfolio margin + FIX fields).
+func (s *accountServiceTestSuite) TestGetAPIKeyPermissionLiveShape() {
+	data := []byte(`{"ipRestrict":false,"createTime":1791891789000,"enableSpotAndMarginTrading":false,"enableWithdrawals":false,"enableInternalTransfer":false,"permitsUniversalTransfer":false,"enableVanillaOptions":false,"enablePortfolioMarginTrading":false,"enableFixApiTrade":false,"enableFixReadOnly":false,"enableReading":true,"enableFutures":false,"enableMargin":false}`)
+	s.mockDo(data, nil)
+	defer s.assertDo()
+	s.assertReq(func(r *request) {
+		e := newSignedRequest()
+		s.assertRequestEqual(e, r)
+	})
+
+	res, err := s.client.NewGetAPIKeyPermission().Do(newContext())
+	s.r().NoError(err)
+	e := &APIKeyPermission{
+		CreateTime:    1791891789000,
+		EnableReading: true,
+	}
+	s.assertAPIKeyPermissionEqual(e, res)
+}
+
+// TestGetAPIKeyPermissionPortfolioMarginTrading checks the new trading
+// flags decode when set, so a PM-trading key is detectable.
+func (s *accountServiceTestSuite) TestGetAPIKeyPermissionPortfolioMarginTrading() {
+	data := []byte(`{"ipRestrict":true,"createTime":1791891789000,"enableSpotAndMarginTrading":false,"enableWithdrawals":false,"enableInternalTransfer":false,"permitsUniversalTransfer":false,"enableVanillaOptions":false,"enablePortfolioMarginTrading":true,"enableFixApiTrade":true,"enableFixReadOnly":true,"enableReading":true,"enableFutures":false,"enableMargin":false}`)
+	s.mockDo(data, nil)
+	defer s.assertDo()
+	s.assertReq(func(r *request) {
+		e := newSignedRequest()
+		s.assertRequestEqual(e, r)
+	})
+
+	res, err := s.client.NewGetAPIKeyPermission().Do(newContext())
+	s.r().NoError(err)
+	e := &APIKeyPermission{
+		IPRestrict:                   true,
+		CreateTime:                   1791891789000,
+		EnablePortfolioMarginTrading: true,
+		EnableFixApiTrade:            true,
+		EnableFixReadOnly:            true,
+		EnableReading:                true,
+	}
+	s.assertAPIKeyPermissionEqual(e, res)
+}
+
 func (s *accountServiceTestSuite) assertAPIKeyPermissionEqual(e, a *APIKeyPermission) {
 	r := s.r()
 	r.Equal(e.IPRestrict, a.IPRestrict, "IPRestrict")
@@ -226,5 +270,8 @@ func (s *accountServiceTestSuite) assertAPIKeyPermissionEqual(e, a *APIKeyPermis
 	r.Equal(e.EnableFutures, a.EnableFutures, "EnableFutures")
 	r.Equal(e.EnableMargin, a.EnableMargin, "EnableMargin")
 	r.Equal(e.EnableSpotAndMarginTrading, a.EnableSpotAndMarginTrading, "EnableSpotAndMarginTrading")
+	r.Equal(e.EnablePortfolioMarginTrading, a.EnablePortfolioMarginTrading, "EnablePortfolioMarginTrading")
+	r.Equal(e.EnableFixApiTrade, a.EnableFixApiTrade, "EnableFixApiTrade")
+	r.Equal(e.EnableFixReadOnly, a.EnableFixReadOnly, "EnableFixReadOnly")
 	r.Equal(e.TradingAuthorityExpirationTime, a.TradingAuthorityExpirationTime, "TradingAuthorityExpirationTime")
 }
