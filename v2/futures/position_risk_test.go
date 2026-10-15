@@ -28,7 +28,8 @@ func (s *positionRiskServiceTestSuite) TestGetPositionRisk() {
 			"positionAmt": "0.003",
 			"symbol": "BTCUSDT",
 			"unRealizedProfit": "-0.03331353",
-			"positionSide": "BOTH"
+			"positionSide": "BOTH",
+			"updateTime": 1625474304765
 		}
 	]`)
 	s.mockDo(data, nil)
@@ -61,6 +62,7 @@ func (s *positionRiskServiceTestSuite) TestGetPositionRisk() {
 		Symbol:           "BTCUSDT",
 		UnRealizedProfit: "-0.03331353",
 		PositionSide:     "BOTH",
+		UpdateTime:       1625474304765,
 	}
 	s.assertPositionRiskEqual(e, res[0])
 }
@@ -79,4 +81,5 @@ func (s *positionRiskServiceTestSuite) assertPositionRiskEqual(e, a *PositionRis
 	r.Equal(e.Symbol, a.Symbol, "Symbol")
 	r.Equal(e.UnRealizedProfit, a.UnRealizedProfit, "UnRealizedProfit")
 	r.Equal(e.PositionSide, a.PositionSide, "PositionSide")
+	r.Equal(e.UpdateTime, a.UpdateTime, "UpdateTime")
 }
