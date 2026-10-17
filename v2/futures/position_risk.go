@@ -59,4 +59,6 @@ type PositionRisk struct {
 	PositionSide     string `json:"positionSide"`
 	Notional         string `json:"notional"`
 	IsolatedWallet   string `json:"isolatedWallet"`
+	// UpdateTime is when the position last changed, in milliseconds.
+	UpdateTime int64 `json:"updateTime"`
 }
